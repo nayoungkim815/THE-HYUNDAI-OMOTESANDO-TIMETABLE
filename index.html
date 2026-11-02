@@ -337,7 +337,7 @@ const CONFIG = {
   end: '2026-11-22',
   close: '20:00',                              // 영업 종료 시간 (마지막 시간대의 끝)
   slotMinutes: 60,                              // 기본 방문 시간(분) — 개별 일정은 end로 따로 지정 가능
-  slots: ['11:00', '13:00', '15:00', '17:00'],  // 기본 방문 슬롯 (목록에 없는 시간도 자동으로 행이 추가돼요)
+  slots: ['11:00', '13:00', '15:00', '17:00', '19:00'],  // 시간대 시작 (14:00처럼 사이 시간은 해당 시간대 칸에 들어가요)
 };
 
 /* 필드 안내
@@ -363,7 +363,7 @@ const VISITS = [
   { date:'', time:'', name:'o__hayou99',           post:'2026-11-20', format:'게시물(피드)', status:'미정', stage:0 },
   { date:'2026-11-13', time:'17:00', name:'miyagiyoshimasa',      post:'2026-11-20', format:'게시물(피드)', status:'확정', stage:0, memo:'지인 (shuri.hiker와 함께 방문)' },
   { date:'', time:'', name:'koyama.yamayama',      post:'2026-11-20', format:'숏폼(릴스)', status:'미정', stage:0 },
-  { date:'', time:'', name:'idaka.we',             post:'2026-11-20', format:'숏폼(릴스)', status:'미정', stage:0 },
+  { date:'2026-11-16', time:'14:00', name:'idaka.we',             post:'2026-11-20', format:'숏폼(릴스)', status:'확정', stage:0 },
   { date:'2026-11-13', time:'17:00', name:'genjitutouhikou_777',  post:'2026-11-20', format:'게시물(피드)', status:'확정', stage:0 },
   { date:'', time:'', name:'chicogram26',          post:'2026-11-20', format:'숏폼(릴스)', status:'미정', stage:0 },
   { date:'', time:'', name:'안료나의 산 등반 安涼奈の山登り', post:'2026-11-20', format:'게시물(피드)', status:'미정', stage:0 },
@@ -392,7 +392,8 @@ for (let d = new Date(CONFIG.start + 'T00:00:00'); d <= new Date(CONFIG.end + 'T
 const fmtDate = iso => { if (!iso) return '미정'; const d = new Date(iso + 'T00:00:00'); return `${d.getMonth()+1}/${d.getDate()} (${WD[d.getDay()]})`; };
 const scheduled = VISITS.filter(v => v.date && v.status !== '취소');
 const unscheduled = VISITS.filter(v => !v.date);
-const times = [...new Set([...CONFIG.slots, ...VISITS.filter(v => v.date && v.time).map(v => v.time)])].sort();
+const times = [...CONFIG.slots].sort();
+const slotOf = time => time ? (times.filter(t => t <= time).pop() || times[0]) : '';
 const hasNoTime = VISITS.some(v => v.date && !v.dateEnd && !v.time);
 const isRange = v => !!(v.date && v.dateEnd);
 const onDay = (v, iso) => isRange(v) ? iso >= v.date && iso <= v.dateEnd : v.date === iso;
@@ -431,7 +432,7 @@ document.getElementById('slotRule2').textContent = `기본 1팀 ${CONFIG.slotMin
     const next = times[times.indexOf(t) + 1] || CONFIG.close;
     h += t ? `<tr><th class="time">${t}<small>~${next}</small></th>` : `<tr><th class="time">${NO_TIME}</th>`;
     days.forEach(d => {
-      const vs = VISITS.filter(v => !isRange(v) && v.date === d.iso && (v.time || '') === t);
+      const vs = VISITS.filter(v => !isRange(v) && v.date === d.iso && slotOf(v.time) === t).sort((a,b) => a.time.localeCompare(b.time));
       h += `<td class="${d.we?'we':''}">` + (vs.length
         ? vs.map(v => `<div class="slot ${STATUS[v.status]||''}"><b>${esc(v.name)}</b><span>${t ? range(v) : esc(v.status)}</span>${v.format ? '<br>' + fmtTag(v.format) : ''}</div>`).join('')
         : (t ? '<div class="slot empty">빈 슬롯</div>' : '')) + '</td>';
