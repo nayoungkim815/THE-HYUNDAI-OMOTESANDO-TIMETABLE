@@ -335,6 +335,7 @@ const CONFIG = {
   updated: '2026-10-30',
   start: '2026-11-13',
   end: '2026-11-22',
+  close: '20:00',                              // 영업 종료 시간 (마지막 시간대의 끝)
   slotMinutes: 60,                              // 기본 방문 시간(분) — 개별 일정은 end로 따로 지정 가능
   slots: ['11:00', '13:00', '15:00', '17:00'],  // 기본 방문 슬롯 (목록에 없는 시간도 자동으로 행이 추가돼요)
 };
@@ -427,7 +428,8 @@ document.getElementById('slotRule2').textContent = `기본 1팀 ${CONFIG.slotMin
   days.forEach(d => h += `<th class="${d.we?'we':''}"><button type="button" data-day="${d.iso}">${d.label}<small>${d.wd}</small></button></th>`);
   h += '</tr></thead><tbody>';
   rows.forEach(t => {
-    h += t ? `<tr><th class="time">${t}<small>~${addMin(t)}</small></th>` : `<tr><th class="time">${NO_TIME}</th>`;
+    const next = times[times.indexOf(t) + 1] || CONFIG.close;
+    h += t ? `<tr><th class="time">${t}<small>~${next}</small></th>` : `<tr><th class="time">${NO_TIME}</th>`;
     days.forEach(d => {
       const vs = VISITS.filter(v => !isRange(v) && v.date === d.iso && (v.time || '') === t);
       h += `<td class="${d.we?'we':''}">` + (vs.length
