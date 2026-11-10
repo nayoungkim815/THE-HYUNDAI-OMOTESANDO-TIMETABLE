@@ -212,27 +212,6 @@ footer{margin:96px 0 0;padding:28px 0 40px;border-top:1px solid var(--line);colo
   .matrix,.table{min-width:0}
   body{font-size:12px}
 }
-
-/* ===== 내부용 테마 (크리에이터 가이드와 구분) ===== */
-:root{--accent:#0f766e;--accent-soft:#dff3ef;--hero:#0d1513;--flag:#f59e0b}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--accent:#2dd4bf;--accent-soft:#0c2c29;--hero:#0a1210}}
-:root[data-theme="dark"]{--accent:#2dd4bf;--accent-soft:#0c2c29;--hero:#0a1210}
-nav{border-top:4px solid var(--flag)}
-nav .brand small{background:var(--flag);color:#1a1200;font-weight:800;letter-spacing:.02em}
-.hero{background:var(--hero);background-image:repeating-linear-gradient(135deg,rgba(255,255,255,.03) 0 14px,transparent 14px 28px);color:#eef4f2;padding:48px 0 40px;border-bottom:1px solid rgba(255,255,255,.08)}
-.hero .kicker{color:#5eead4;display:inline-flex;align-items:center;gap:8px}
-.hero .kicker::before{content:"INTERNAL";font-size:11px;font-weight:800;letter-spacing:.08em;color:#1a1200;background:var(--flag);border-radius:4px;padding:2px 6px}
-.hero h1{color:#fff}
-.hero .lede,.hero .updated{color:rgba(238,244,242,.68)}
-.hero .facts li{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);color:rgba(238,244,242,.62)}
-.hero .facts strong{color:#fff}
-.hero .facts .meter{background:rgba(255,255,255,.14)}
-.hero .facts .meter i{background:#5eead4}
-.hero .facts a.more{color:#5eead4}
-.eyebrow b{border-radius:8px}
-.steps li::before{border-radius:10px}
-.matrix thead th,.matrix th.time,.matrix tfoot td,.matrix tfoot th{background:color-mix(in srgb,var(--accent-soft) 55%,var(--surface))}
-@media print{.hero{background:none;color:#000}.hero h1,.hero .facts strong{color:#000}.hero .lede,.hero .updated,.hero .facts li{color:#444}.hero .facts li{background:none;border:1px solid #ccc}}
 </style>
 </head>
 <body>
@@ -353,7 +332,7 @@ nav .brand small{background:var(--flag);color:#1a1200;font-weight:800;letter-spa
    여기만 수정하면 페이지 전체(전체 일정·일자별 상세·현황)가 같이 바뀌어요.
    ============================================================ */
 const CONFIG = {
-  updated: '2026-11-09',
+  updated: '2026-10-30',
   start: '2026-11-13',
   end: '2026-11-22',
   close: '20:00',                              // 영업 종료 시간 (마지막 시간대의 끝)
@@ -373,6 +352,7 @@ const VISITS = [
   { date:'2026-11-16', time:'',      end:'',      name:'ももの山と日々 MOMOKA', handle:'', post:'2026-11-20', format:'게시물(피드)', type:'', people:0, staff:'', status:'확정', stage:0, memo:'방문 시간 미정' },
   { date:'2026-11-16', dateEnd:'2026-11-19', time:'', end:'', name:'MIU의 일상 みう旅 / 日本で充電中', handle:'', post:'2026-11-20', format:'숏폼(릴스)', type:'', people:0, staff:'', status:'조율 중', stage:0, memo:'11/16~11/19 중 방문 예정, 정확한 날짜 확인 필요' },
   { date:'2026-11-15', time:'14:00', end:'', name:'yamashiba.p', handle:'', post:'', format:'게시물(피드)', type:'', people:0, staff:'', status:'확정', stage:0, memo:'' },
+  { date:'2026-11-15', time:'11:00', end:'', name:'summit.by.ao', handle:'', post:'', format:'숏폼(릴스)', type:'', people:2, staff:'', status:'확정', stage:0, memo:'동행자 1명 (본인 포함 2명)' },
 
   // 방문일 미정
   { date:'2026-11-14', time:'', name:'りー夫婦の登山 리부부의 등산', post:'2026-11-20', format:'브랜디드(롱폼)', status:'확정', stage:0, memo:'방문 시간 미정' },
@@ -386,7 +366,6 @@ const VISITS = [
   { date:'2026-11-13', time:'18:00', name:'miyagiyoshimasa',      post:'2026-11-20', format:'게시물(피드)', status:'확정', stage:0, memo:'지인 (shuri.hiker와 함께 방문)' },
   { date:'2026-11-15', time:'13:00', name:'koyama.yamayama',      post:'2026-11-20', format:'숏폼(릴스)', status:'확정', stage:0 },
   { date:'2026-11-16', time:'14:00', name:'idaka.we',             post:'2026-11-20', format:'숏폼(릴스)', status:'확정', stage:0 },
-  { date:'2026-11-16', time:'16:00', end:'17:00', name:'sedoxmaya',            post:'', format:'', status:'확정', stage:0, memo:'16:00~17:00경 방문' },
   { date:'2026-11-13', time:'17:00', name:'genjitutouhikou_777',  post:'2026-11-20', format:'게시물(피드)', status:'확정', stage:0 },
   { date:'2026-11-14', time:'', name:'chicogram26',          post:'2026-11-20', format:'숏폼(릴스)', status:'확정', stage:0, memo:'오후 방문 (정확한 시간 미정)' },
   { date:'2026-11-17', time:'11:00', name:'안료나의 산 등반 安涼奈の山登り', post:'2026-11-20', format:'게시물(피드)', status:'확정', stage:0 },
